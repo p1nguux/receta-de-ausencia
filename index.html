@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ammu-Nation Sandy — Receta de Ausencia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Oswald:wght@500;600;700&family=Dancing+Script:wght@600;700&family=Barlow+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<style>
+  :root {
+    --red: #d6192b; --red-dark: #9e0f1d; --blue: #123a8f; --blue-dark: #0a1f4f;
+    --navy: #07122e; --white: #ffffff; --muted: #a9b6d6; --line: rgba(255,255,255,.14);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family: 'Inter', system-ui, sans-serif; color: var(--white);
+    background:
+      radial-gradient(900px 500px at 85% -10%, rgba(214,25,43,.25), transparent 60%),
+      radial-gradient(900px 600px at -10% 10%, rgba(18,58,143,.55), transparent 60%),
+      var(--navy);
+    min-height: 100vh; padding: 0 16px 60px;
+  }
+  .stripe { height: 10px; background: repeating-linear-gradient(-45deg, var(--red) 0 18px, var(--white) 18px 36px, var(--blue) 36px 54px); }
+  .wrap { max-width: 1120px; margin: 0 auto; }
+  header { text-align: center; padding: 38px 0 26px; }
+  .logo {
+    width: 72px; height: 72px; margin: 0 auto 14px; display: grid; place-items: center;
+    font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 26px; letter-spacing: 1px;
+    background: linear-gradient(135deg, var(--red) 0 50%, var(--blue) 50% 100%);
+    border: 3px solid var(--white); border-radius: 14px; box-shadow: 0 8px 28px rgba(0,0,0,.45);
+    text-shadow: 0 2px 4px rgba(0,0,0,.5);
+  }
+  h1 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: clamp(30px, 6vw, 48px); letter-spacing: 3px; text-transform: uppercase; line-height: 1.05; }
+  h1 span { color: var(--red); }
+  .sub { margin-top: 8px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; font-size: 13px; }
+
+  .layout { display: grid; grid-template-columns: minmax(0, 480px) minmax(0, 1fr); gap: 24px; align-items: start; }
+  @media (max-width: 960px) { .layout { grid-template-columns: 1fr; } }
+  .previewcol { position: sticky; top: 16px; }
+  @media (max-width: 960px) { .previewcol { position: static; } }
+
+  .card {
+    background: linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.025));
+    border: 1px solid var(--line); border-radius: 16px; padding: 26px 24px 8px; margin-bottom: 22px;
+    box-shadow: 0 10px 34px rgba(0,0,0,.35); position: relative; overflow: hidden;
+  }
+  .card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; background: linear-gradient(var(--red), var(--blue)); }
+  .sec-head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
+  .badge { font-family: 'Oswald', sans-serif; font-weight: 600; letter-spacing: 1.5px; padding: 4px 12px; border-radius: 6px; font-size: 14px; background: var(--red); color: var(--white); }
+  h2 { font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 21px; letter-spacing: 1px; text-transform: uppercase; }
+  .field { margin-bottom: 20px; }
+  label { display: block; font-weight: 600; font-size: 14px; margin-bottom: 7px; }
+  label .req { color: var(--red); margin-left: 3px; }
+  input[type=text], input[type=date], select, textarea {
+    width: 100%; font: inherit; color: var(--white); background: rgba(5,12,34,.7);
+    border: 1.5px solid var(--line); border-radius: 10px; padding: 12px 14px; transition: border-color .15s, box-shadow .15s; color-scheme: dark;
+  }
+  textarea { min-height: 96px; resize: vertical; }
+  select option { background: var(--blue-dark); color: var(--white); }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--red); box-shadow: 0 0 0 3px rgba(214,25,43,.28); }
+  ::placeholder { color: #6f7fa8; }
+  .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  @media (max-width: 560px) { .grid2 { grid-template-columns: 1fr; gap: 0; } .card { padding: 22px 18px 4px; } }
+
+  .submit {
+    width: 100%; border: 0; cursor: pointer; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 20px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--white); padding: 16px; border-radius: 12px;
+    background: linear-gradient(90deg, var(--red-dark), var(--red) 45%, var(--blue) 100%);
+    border-bottom: 4px solid rgba(0,0,0,.35); box-shadow: 0 8px 24px rgba(214,25,43,.3); transition: transform .1s, filter .15s;
+  }
+  .submit:hover { filter: brightness(1.12); } .submit:active { transform: translateY(2px); } .submit:disabled { opacity: .6; cursor: wait; }
+  #msg { margin-top: 18px; padding: 14px 16px; border-radius: 10px; font-size: 14px; display: none; line-height: 1.5; }
+  #msg.ok { display: block; background: rgba(18,58,143,.45); border: 1px solid #5b86e0; }
+  #msg.err { display: block; background: rgba(214,25,43,.2); border: 1px solid var(--red); }
+  .dl { display: none; margin-top: 12px; background: var(--white); color: var(--blue-dark); border: 0; border-radius: 8px; padding: 10px 18px; font-weight: 700; cursor: pointer; }
+  footer { text-align: center; color: var(--muted); font-size: 12px; margin-top: 26px; letter-spacing: 1px; }
+
+  .prevlabel { font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 13px; color: var(--muted); margin-bottom: 10px; text-align: center; }
+  .slipfit { overflow-x: auto; padding-bottom: 6px; }
+
+  /* ================= RECETA ================= */
+  #slip {
+    width: 600px; margin: 0 auto; position: relative; overflow: hidden;
+    background: #fbf9f3; color: #14224a; font-family: 'Inter', sans-serif;
+    border-radius: 6px; box-shadow: 0 18px 50px rgba(0,0,0,.55);
+  }
+  #slip .s-stripe { height: 14px; background: repeating-linear-gradient(-45deg, #d6192b 0 18px, #ffffff 18px 36px, #123a8f 36px 54px); }
+  #slip .s-head { display: flex; align-items: center; gap: 16px; padding: 22px 28px 16px; border-bottom: 3px double #14224a; }
+  #slip .s-logo { width: 62px; height: 62px; flex: none; display: grid; place-items: center; font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 24px; color: #fff; background: linear-gradient(135deg, #d6192b 0 50%, #123a8f 50% 100%); border: 3px solid #14224a; border-radius: 12px; }
+  #slip .s-brand { flex: 1; }
+  #slip .s-brand b { display: block; font-family: 'Oswald', sans-serif; font-size: 25px; letter-spacing: 3px; text-transform: uppercase; line-height: 1.05; }
+  #slip .s-brand b i { font-style: normal; color: #d6192b; }
+  #slip .s-brand small { display: block; margin-top: 4px; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #5a6a99; font-weight: 600; }
+  #slip .s-meta { text-align: right; font-size: 11px; color: #5a6a99; line-height: 1.7; text-transform: uppercase; letter-spacing: 1px; font-weight: 600; }
+  #slip .s-meta b { display: block; font-family: 'Oswald', sans-serif; font-size: 18px; color: #d6192b; letter-spacing: 2px; }
+
+  #slip .s-title { position: relative; text-align: center; padding: 18px 28px 6px; }
+  #slip .s-title h3 { font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 34px; letter-spacing: 6px; text-transform: uppercase; }
+  #slip .s-title h3 span { color: #d6192b; }
+  #slip .s-title p { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: #5a6a99; margin-top: 2px; font-weight: 600; }
+  #slip .rx { position: absolute; left: 26px; top: 8px; font-family: 'Oswald', serif; font-size: 58px; font-weight: 700; color: #d6192b; line-height: 1; opacity: .9; }
+
+  #slip .s-body { padding: 14px 28px 6px; }
+  #slip .row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px 22px; margin-bottom: 14px; }
+  #slip .row.one { grid-template-columns: 1fr; }
+  #slip .lbl { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #5a6a99; font-weight: 700; margin-bottom: 4px; }
+  #slip .val { font-size: 16px; font-weight: 600; padding-bottom: 5px; border-bottom: 1.5px solid #14224a; min-height: 28px; word-break: break-word; }
+  #slip .val.empty { color: #b3bbd3; font-weight: 500; }
+  #slip .tipo { display: inline-block; font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; font-size: 15px; color: #fff; background: #123a8f; padding: 5px 14px; border-radius: 4px; }
+
+  #slip .period { display: flex; align-items: stretch; margin: 6px 0 16px; border: 2px solid #14224a; border-radius: 8px; overflow: hidden; }
+  #slip .period > div { flex: 1; padding: 10px 14px; text-align: center; }
+  #slip .period .arrow { flex: none; width: 34px; display: grid; place-items: center; background: #14224a; color: #fff; font-size: 18px; padding: 0; }
+  #slip .period .date { font-family: 'Oswald', sans-serif; font-size: 24px; letter-spacing: 2px; }
+  #slip .period .dur { flex: none; width: 130px; background: #d6192b; color: #fff; }
+  #slip .period .dur .lbl { color: rgba(255,255,255,.85); }
+  #slip .period .dur .date { font-size: 28px; line-height: 1.1; }
+  #slip .period .dur small { display: block; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 700; }
+
+  #slip .note { min-height: 62px; padding: 8px 12px; border: 1.5px dashed #8d99bd; border-radius: 6px; font-size: 14px; line-height: 1.55; background: rgba(18,58,143,.04); white-space: pre-wrap; word-break: break-word; }
+  #slip .note.empty { color: #b3bbd3; }
+
+  #slip .s-foot { display: flex; align-items: flex-end; justify-content: space-between; gap: 18px; padding: 10px 28px 20px; }
+  #slip .sign { flex: 1; text-align: center; }
+  #slip .sign .script { font-family: 'Dancing Script', cursive; font-weight: 700; font-size: 30px; line-height: 1.1; min-height: 38px; color: #123a8f; padding: 0 6px; word-break: break-word; }
+  #slip .sign .line { border-top: 1.5px solid #14224a; padding-top: 5px; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #5a6a99; font-weight: 700; }
+  #slip .stamp { flex: none; width: 128px; height: 128px; border: 4px double #d6192b; border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #d6192b; transform: rotate(-12deg); text-align: center; font-family: 'Oswald', sans-serif; text-transform: uppercase; opacity: .92; }
+  #slip .stamp b { font-size: 22px; letter-spacing: 3px; line-height: 1; }
+  #slip .stamp span { font-size: 10px; letter-spacing: 2px; margin-top: 5px; font-family: 'Inter', sans-serif; font-weight: 700; }
+  #slip .stamp em { font-style: normal; font-size: 11px; letter-spacing: 1px; margin-top: 5px; font-family: 'Inter', sans-serif; font-weight: 700; }
+  #slip .s-bar { display: flex; justify-content: space-between; align-items: center; padding: 8px 28px; background: #14224a; color: #cdd6f0; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; font-weight: 600; }
+  #slip .barcode { height: 16px; width: 150px; background: repeating-linear-gradient(90deg, #cdd6f0 0 2px, transparent 2px 4px, #cdd6f0 4px 5px, transparent 5px 8px, #cdd6f0 8px 11px, transparent 11px 13px); }
+</style>
+</head>
+<body>
+<div class="stripe" style="margin: 0 -16px;"></div>
+<div class="wrap">
+  <header>
+    <div class="logo">AN</div>
+    <h1>Ammu-Nation <span>Sandy</span></h1>
+    <p class="sub">Receta de Ausencia del Personal</p>
+  </header>
+
+  <div class="layout">
+    <!-- FORMULARIO -->
+    <form id="form" novalidate>
+      <section class="card">
+        <div class="sec-head"><span class="badge">IC</span><h2>Datos del Empleado</h2></div>
+        <div class="field">
+          <label for="nombre">Nombre y Apellido <span class="req">*</span></label>
+          <input type="text" id="nombre" required>
+        </div>
+        <div class="field">
+          <label for="rango">Rango / Cargo <span class="req">*</span></label>
+          <input type="text" id="rango" placeholder="Ej: Vendedor" required>
+        </div>
+      </section>
+
+      <section class="card">
+        <div class="sec-head"><span class="badge">IC</span><h2>Detalles de la Ausencia</h2></div>
+        <div class="field">
+          <label for="tipo">Tipo de ausencia <span class="req">*</span></label>
+          <select id="tipo" required>
+            <option value="">Selecciona una opción</option>
+            <option>Vacaciones</option>
+            <option>Enfermedad / Reposo</option>
+            <option>Asuntos personales</option>
+            <option>Viaje</option>
+            <option>Motivos laborales externos</option>
+            <option>Otro</option>
+          </select>
+        </div>
+        <div class="grid2">
+          <div class="field">
+            <label for="desde">Desde <span class="req">*</span></label>
+            <input type="date" id="desde" required>
+          </div>
+          <div class="field">
+            <label for="hasta">Hasta <span class="req">*</span></label>
+            <input type="date" id="hasta" required>
+          </div>
+        </div>
+        <div class="field">
+          <label for="motivo">Motivo de la ausencia (opcional)</label>
+          <textarea id="motivo" placeholder="Explica brevemente por qué te ausentarás"></textarea>
+        </div>
+        <div class="field">
+          <label for="extra">Comentarios adicionales</label>
+          <textarea id="extra" placeholder="Opcional" style="min-height:72px"></textarea>
+        </div>
+      </section>
+
+      <button type="submit" class="submit" id="btn">Emitir Receta de Ausencia</button>
+      <div id="msg"></div>
+      <button type="button" class="dl" id="dl">⬇ Descargar receta (PNG)</button>
+    </form>
+
+    <!-- VISTA PREVIA / RECETA -->
+    <div class="previewcol">
+      <p class="prevlabel">Vista previa de la receta</p>
+      <div class="slipfit">
+        <div id="slip">
+          <div class="s-stripe"></div>
+          <div class="s-head">
+            <div class="s-logo">AN</div>
+            <div class="s-brand"><b>Ammu-Nation <i>Sandy</i></b><small>Recursos Humanos · Personal</small></div>
+            <div class="s-meta">Folio<b id="p-folio">AN-000000</b><span id="p-emision">--/--/----</span></div>
+          </div>
+          <div class="s-title">
+            <div class="rx">℞</div>
+            <h3>Receta de <span>Ausencia</span></h3>
+            <p>Autorización de ausencia laboral</p>
+          </div>
+          <div class="s-body">
+            <div class="row">
+              <div><div class="lbl">Empleado</div><div class="val empty" id="p-nombre">Nombre y apellido</div></div>
+              <div><div class="lbl">Rango / Cargo</div><div class="val empty" id="p-rango">Cargo</div></div>
+            </div>
+            <div class="row one">
+              <div><div class="lbl">Tipo de ausencia</div><div style="min-height:30px"><span class="tipo" id="p-tipo">—</span></div></div>
+            </div>
+            <div class="period">
+              <div><div class="lbl">Desde</div><div class="date" id="p-desde">--/--/----</div></div>
+              <div class="arrow">➜</div>
+              <div><div class="lbl">Hasta</div><div class="date" id="p-hasta">--/--/----</div></div>
+              <div class="dur"><div class="lbl">Duración</div><div class="date" id="p-dur">—</div></div>
+            </div>
+            <div class="row one" id="r-motivo">
+              <div><div class="lbl">Motivo de la ausencia</div><div class="note empty" id="p-motivo">Sin motivo especificado</div></div>
+            </div>
+            <div class="row one" id="r-extra" style="display:none">
+              <div><div class="lbl">Comentarios adicionales</div><div class="note" id="p-extra"></div></div>
+            </div>
+          </div>
+          <div class="s-foot">
+            <div class="sign"><div class="script" id="p-firma">&nbsp;</div><div class="line">Firma del empleado</div></div>
+            <div class="stamp"><b>Recibido</b><span>Recursos Humanos</span><em id="p-stampdate">--/--/----</em></div>
+          </div>
+          <div class="s-bar"><span>Ammu-Nation Sandy · Ausencias</span><div class="barcode"></div></div>
+          <div class="s-stripe"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>AMMU-NATION SANDY · RECURSOS HUMANOS</footer>
+</div>
+<div class="stripe" style="margin: 40px -16px 0;"></div>
+
+<script>
+  // Webhook del canal de ausencias
+  const WEBHOOK_URL = "https://discord.com/api/webhooks/1563503504218267670/iEZrrVOK-1xgKZPyBZgbxcR_giR6mYQupmFyVAD6GgHGWX_ZkY_wRPcHgigkJe5SDi34";
+
+  const $ = id => document.getElementById(id);
+  const form = $('form'), msg = $('msg'), btn = $('btn'), dlBtn = $('dl'), slip = $('slip');
+  let folio = null, lastBlob = null;
+
+  const pad = n => String(n).padStart(2, '0');
+  const fmtISO = iso => { const [y, m, d] = iso.split('-'); return d + '/' + m + '/' + y; };
+  const today = () => { const t = new Date(); return pad(t.getDate()) + '/' + pad(t.getMonth() + 1) + '/' + t.getFullYear(); };
+  const newFolio = () => 'AN-' + String(Math.floor(Math.random() * 900000) + 100000);
+  function show(type, text) { msg.className = type; msg.textContent = text; msg.style.display = 'block'; }
+  function days() {
+    if (!$('desde').value || !$('hasta').value) return 0;
+    const a = new Date($('desde').value + 'T00:00:00'), b = new Date($('hasta').value + 'T00:00:00');
+    return Math.round((b - a) / 86400000) + 1;
+  }
+  function setVal(id, text, placeholder) {
+    const el = $(id); const has = !!text;
+    el.textContent = has ? text : placeholder;
+    el.classList.toggle('empty', !has);
+  }
+
+  function render() {
+    setVal('p-nombre', $('nombre').value.trim(), 'Nombre y apellido');
+    setVal('p-rango', $('rango').value.trim(), 'Cargo');
+    $('p-tipo').textContent = $('tipo').value || '—';
+    $('p-desde').textContent = $('desde').value ? fmtISO($('desde').value) : '--/--/----';
+    $('p-hasta').textContent = $('hasta').value ? fmtISO($('hasta').value) : '--/--/----';
+    const n = days();
+    $('p-dur').innerHTML = n >= 1 ? n + '<small>' + (n === 1 ? 'día' : 'días') + '</small>' : '—';
+    setVal('p-motivo', $('motivo').value.trim(), 'Sin motivo especificado');
+    const ex = $('extra').value.trim();
+    $('r-extra').style.display = ex ? '' : 'none';
+    $('p-extra').textContent = ex;
+    $('p-firma').innerHTML = $('nombre').value.trim() ? '' : '&nbsp;';
+    if ($('nombre').value.trim()) $('p-firma').textContent = $('nombre').value.trim();
+    $('p-emision').textContent = today();
+    $('p-stampdate').textContent = today();
+    $('p-folio').textContent = folio || 'AN-000000';
+  }
+  form.addEventListener('input', render);
+  $('desde').addEventListener('change', () => { if (!$('hasta').value || $('hasta').value < $('desde').value) $('hasta').value = $('desde').value; $('hasta').min = $('desde').value; render(); });
+  render();
+
+  async function makeImage() {
+    if (document.fonts && document.fonts.ready) await document.fonts.ready;
+    const canvas = await html2canvas(slip, { scale: 2, backgroundColor: null, useCORS: true, logging: false });
+    return await new Promise(res => canvas.toBlob(res, 'image/png'));
+  }
+
+  dlBtn.addEventListener('click', () => {
+    if (!lastBlob) return;
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(lastBlob);
+    a.download = 'receta-ausencia-' + (folio || 'AN') + '.png';
+    a.click();
+  });
+
+  form.addEventListener('submit', async e => {
+    e.preventDefault();
+    const missing = [...form.querySelectorAll('[required]')].find(el => !el.value.trim());
+    if (missing) { missing.focus(); return show('err', 'Completa todos los campos obligatorios (*).'); }
+    if (days() < 1) return show('err', 'La fecha final no puede ser anterior a la fecha inicial.');
+
+    folio = newFolio(); render();
+    btn.disabled = true; btn.textContent = 'Emitiendo receta...'; dlBtn.style.display = 'none'; msg.className = ''; msg.style.display = '';
+    const nombre = $('nombre').value.trim();
+    const n = days();
+    try {
+      lastBlob = await makeImage();
+      const fd = new FormData();
+      fd.append('payload_json', JSON.stringify({
+        embeds: [{
+          color: 0xD6192B,
+          image: { url: 'attachment://receta-ausencia.png' }
+        }]
+      }));
+      fd.append('files[0]', lastBlob, 'receta-ausencia.png');
+      const r = await fetch(WEBHOOK_URL, { method: 'POST', body: fd });
+      if (!r.ok) throw new Error(r.status);
+      show('ok', '✅ ¡Receta de ausencia emitida y enviada! Folio ' + folio + '.');
+      dlBtn.style.display = 'inline-block';
+    } catch (err) {
+      show('err', lastBlob
+        ? 'No se pudo enviar automáticamente. Descarga la receta y súbela al canal de ausencias.'
+        : 'No se pudo generar la imagen. Revisa tu conexión e inténtalo de nuevo.');
+      if (lastBlob) dlBtn.style.display = 'inline-block';
+    } finally {
+      btn.disabled = false; btn.textContent = 'Emitir Receta de Ausencia';
+    }
+  });
+</script>
+</body>
+</html>
